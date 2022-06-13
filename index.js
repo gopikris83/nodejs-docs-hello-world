@@ -1,16 +1,21 @@
 const http = require('http');
-    fs = require('fs');
+var express = require("express");
+let fs = require('fs');
 
-    fs.readFile('./index.html', function (err, html) {
-        if (err) {
-            throw err; 
-        }       
-        http.createServer(function(request, response) {  
-            response.writeHeader(200, {"Content-Type": "text/html"});  
-            response.write(html);  
-            response.end();  
-        }).listen(8000);
+const server = http.createServer((request, response) => {
+    response.writeHead( 200, {"Content-Type": "text/html"});
+    fs.readFile('./index.html', null, function (error, data) {
+        if (error) {
+            response.writeHead(404);
+            respone.write('Whoops! File not found!');
+        } else {
+            response.write(data);
+        }
+        response.end();
     });
+    // response.end("Hello World!");
+});
+
 const port = process.env.PORT || 1337;
 server.listen(port);
 
